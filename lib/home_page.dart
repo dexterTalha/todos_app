@@ -17,25 +17,30 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               color: Colors.green,
               child: SafeArea(
-                  child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: FlutterLogo(
-                          size: 50,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: FlutterLogo(
+                            size: 50,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Text("User name"),
-                ],
-              )),
+                    Text(
+                      "Tranzita",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

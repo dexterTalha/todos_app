@@ -6,9 +6,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black54,
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            title: Text("Home"),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text("Offer"),
+            icon: Icon(Icons.local_offer),
+          ),
+          BottomNavigationBarItem(
+            title: Text("Lists"),
+            icon: Icon(Icons.list),
+          ),
+          BottomNavigationBarItem(
+            title: Text("Profile"),
+            icon: Icon(Icons.person_pin),
+          ),
+        ],
+      ),
       drawer: Drawer(
         child: Column(
           children: [

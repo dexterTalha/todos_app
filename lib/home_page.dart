@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todos_app/todomodel.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,6 +10,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  List<TodoModel> list = [], tempList = [];
+  bool isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getTodoData().then((v) {
+      tempList = v;
+    });
+  }
+
+  Future<List<TodoModel>> getTodoData() async {
+    list = [];
+    final String url = "http://jsonplaceholder.typicode.com/todos/";
+    final dio = Dio();
+    Response response = await dio.get(url);
+
+    for (Map<String, dynamic> m in response.data) {
+      TodoModel d = TodoModel.fromJson(m);
+      list.add(d);
+    }
+    setState(() {
+      isLoaded = true;
+    });
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,11 +126,52 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Container(
-        child: Center(
-          child: Text("WELCOME"),
-        ),
-      ),
+      body: !isLoaded
+          ? Container(
+              child: Center(
+              child: CupertinoActivityIndicator(),
+            ))
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (_, index) {
+                TodoModel d = list[index];
+                tempList.add(d);
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onLongPress: () {
+                      setState(() {
+                        tempList.remove(d);
+                      });
+                    },
+                    child: Card(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${d.title}"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${d.id}"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${d.completed}"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${d.userId}"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
